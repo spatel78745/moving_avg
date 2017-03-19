@@ -33,22 +33,36 @@ static void test2()
   deque<int> samples = ma.samples();
   for (int j = 0; j != 5; ++j)
   {
-    int expected = j + 6;
+    int expected = j + 5;
     if (samples[j] != expected)
     {
       printf("Expected (%d) at index (%d), got (%d).\n",
           expected, j, samples[j]);
-      cout << "FAIL" << endl;
+      cout << __func__ << ": FAIL" << endl;
       return;
     }
   }
-  cout << "PASS" << endl;
+
+  cout << __func__ << ": PASS" << endl;
+}
+
+template<typename T>
+static void test3(istream& is, int max_samples)
+{
+  moving_avg<T> ma(max_samples);
+
+  int sample, expected;
+  while (is >> sample >> expected)
+  {
+    cout << "Sample: " << sample << " Expected: " << expected << endl;
+  }
 }
 
 int main(int argc, char *argv[])
 {
   //test1();
-  test2();
+  //test2();
+  test3<double>(cin, 5);
 
   return 0;
 }
