@@ -5,19 +5,22 @@
 
 using namespace std;
 
-void moving_avg::put_samp(int samp)
+template<typename T>
+void moving_avg<T>::put_sample(T samp)
 {
-  if (m_samps.size() == m_max_samps) m_samps.pop_front();
+  if (m_samples.size() == m_max_samples) m_samples.pop_front();
 
-  m_samps.push_back(samp);
+  m_samples.push_back(samp);
 }
 
-int moving_avg::get() const
+template<typename T>
+int moving_avg<T>::get() const
 {
-  return accumulate(m_samps.begin(), m_samps.end(), 0);
+  return avg(m_samples.begin(), m_samples.end(), 0);
 }
 
-deque<int> moving_avg::samps() const
+template<typename T>
+deque<T> moving_avg<T>::samples() const
 {
-  return m_samps;
+  return m_samples;
 }

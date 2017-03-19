@@ -11,11 +11,11 @@ static void test1()
   // Put 10 samples of "10"
   // PASS: ma.get() == 10
 
-  moving_avg ma{10};
+  moving_avg<int> ma{10};
 
   for (int i = 0; i < 10; ++i)
   {
-    ma.put_samp(10);
+    ma.put_sample(10);
   }
 
   cout << __func__ << ": " << pf[ma.get() == 10] << endl;
@@ -23,21 +23,21 @@ static void test1()
 
 static void test2()
 {
-  moving_avg ma{5};
+  // Create a moving_avg with 5 samples
+  moving_avg<int> ma{5};
 
-  for (int i = 1; i <= 10; ++i)
-  {
-    ma.put_samp(i);
-  }
+  // Put in 10 samples. Only the last 5 should be retained.
+  for (int i = 0; i != 10; ++i) ma.put_sample(i);
 
-  int i, j;
-  deque<int> samples = ma.samps();
-  for (i = 6, j = 0; i <=10; ++i, ++j)
+  // Test that only the last 5 samples are retained
+  deque<int> samples = ma.samples();
+  for (int j = 0; j != 5; ++j)
   {
-    if (samples[j] != i)
+    int expected = j + 6;
+    if (samples[j] != expected)
     {
       printf("Expected (%d) at index (%d), got (%d).\n",
-          i, j, samples[i]);
+          expected, j, samples[j]);
       cout << "FAIL" << endl;
       return;
     }

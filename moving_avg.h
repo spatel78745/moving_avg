@@ -1,18 +1,27 @@
 #include <deque>
 #include <vector>
 
+template<typename T>
+T avg(T* begin, T* end)
+{
+  return accumulate(begin, end, 0) / (end - begin);
+}
+
+template<typename T>
 class moving_avg
 {
   public:
-    moving_avg(int max_samps): m_max_samps{max_samps} {}
-    moving_avg()             : m_max_samps{-1}        {}
+    // Constructors
+    moving_avg(int max_samples): m_max_samples{max_samples} {}
+    moving_avg()               : m_max_samples{-1}          {}
 
-    void             put_samp(int samp);
-    int              get     ()         const;
-    std::deque<int> samps   ()         const;
+    // Methods
+    void          put_sample (T sample);
+    int           get        ()         const;
+    std::deque<T> samples    ()         const;
+    int           max_samples()         const;
 
   private:
-    int             m_max_samps;
-    int             m_sum;
-    std::deque<int> m_samps;
+    int           m_max_samples;
+    std::deque<T> m_samples;
 };
